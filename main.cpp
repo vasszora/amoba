@@ -1,11 +1,11 @@
 #include "graphics.hpp"
-#include "Widget.hpp"
-#include "Window.hpp"
-#include "GameField.hpp"
-#include "GameLogic.hpp"
+//#include "Widget.hpp"
+//#include "Window.hpp"
+#include "FiveInARowField.hpp"
+#include "FiveInARowLogic.hpp"
 #include "Game.hpp"
-#include "GameButton.hpp"
-#include <iostream>
+//#include "GameButton.hpp"
+//#include <iostream>
 using namespace genv;
 
 

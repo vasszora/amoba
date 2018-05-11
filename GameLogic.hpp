@@ -6,7 +6,7 @@
 class GameField;
 class GameLogic
 {
-private:
+protected:
     int player=1;
 //    int gamesWon=0;
 //    int gamesLost=0;
@@ -17,12 +17,11 @@ public:
     GameLogic(GameField * _field) : field(_field) {};
     void switchPlayer ();
     int whichPlayer () {return player;};
-    void computerPlayer();
-    bool InARow(int howMany);
-    bool InAColumn(int howMany);
-    bool Across(int howMany);
-    bool won();
+    //virtual void computerPlayer();
+    virtual bool won() {return false;};
+    virtual bool validStep(int i, int j) {return false;};
     void stepMade() {stepsMade++;};
+    virtual ~GameLogic() {};
 };
 
 #endif // GAMELOGIC_HPP_INCLUDED

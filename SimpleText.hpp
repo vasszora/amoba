@@ -9,7 +9,7 @@ private:
     std::string txt;
 
 public:
-    SimpleText(int _x, int _y, int _w,int _h,std::string _txt) : Widget(_x,_y,_w, _h), txt(_txt){};
+    SimpleText(int _x, int _y, int _w,int _h,std::string _txt) : Widget(_x,_y,_w, _h), txt(_txt){draw();};
     void draw();
     void eventHandler(genv::event ev);
     std::string getValue();

@@ -1,10 +1,10 @@
 #include "Game.hpp"
-#include "GameField.hpp"
-#include "GameLogic.hpp"
+#include "FiveInARowField.hpp"
+
 
 Game::Game()
 {
-    field = new GameField;
+    field = new FiveInARowField;
 }
 
 void Game::game()
