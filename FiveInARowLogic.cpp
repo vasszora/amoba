@@ -13,6 +13,14 @@ bool FiveInARowLogic::validStep(int i, int j)
     return state(i,j)==0;
 }
 
+void FiveInARowLogic::stepMade(int i, int j)
+{
+    stepsMade++;
+    changeState(i,j);
+
+    //switchPlayer();
+}
+
 bool FiveInARowLogic::InARow(int howMany)
 {
     int row=0;
@@ -163,4 +171,3 @@ void FiveInARowLogic::newGame()
         }
     }
 }
-

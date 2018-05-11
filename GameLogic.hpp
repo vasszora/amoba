@@ -20,7 +20,7 @@ public:
     //virtual void computerPlayer();
     virtual bool won() {return false;};
     virtual bool validStep(int i, int j) {return false;};
-    void stepMade() {stepsMade++;};
+    virtual void stepMade(int i, int j) {};
     virtual ~GameLogic() {};
 };
 

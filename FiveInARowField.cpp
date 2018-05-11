@@ -1,6 +1,7 @@
 #include "FiveInARowField.hpp"
 #include "FiveInARowLogic.hpp"
 #include "SimpleText.hpp"
+#include "BlackOrWhiteSimpleText.hpp"
 #include "NavigationButton.hpp"
 #include <string>
 #include <math.h>
@@ -10,23 +11,19 @@ FiveInARowField::FiveInARowField()
 {
     using namespace genv;
 
-    GameLogic * l = new FiveInARowLogic(this);
-    logic=l;
+    GameLogic * log = new FiveInARowLogic(this);
+    logic=log;
     std::string openGame="Click here or press enter to play.";
     NavigationButton * open = new NavigationButton(max_X/2-gout.twidth(openGame)/2,max_Y/2,gout.twidth(openGame),20,openGame,[this](){this->newGame();},key_enter);
     navig.push_back(open);
     std::string endGame="Click here or press escape to exit.";
     NavigationButton * exit= new NavigationButton(max_X/2-gout.twidth(endGame)/2,3*max_Y/4,gout.twidth(endGame),20,endGame, [this](){this->exit();},key_escape);
     navig.push_back(exit);
-////    names["open"]= new SimpleText(max_X/2-gout.twidth(openGame)/2,max_Y/2,gout.twidth(openGame),20,openGame);
-////    names["end"]= new SimpleText();
-////    names["restart"]= new SimpleText(max_X/2-gout.twidth(restartGame)/2,max_Y/2,gout.twidth(restartGame),20,restartGame);
     openingScreen();
 }
 
 void FiveInARowField::emptyField()
 {
-    //gameGoing=true; ez lehet nem kell, mert jatek kozben a navigalo gombok csak billentyure mukodnek amugy is
     using namespace genv;
 
     gout << move_to(0,0) << color(255,250,250) << box(max_X, max_Y);
@@ -43,12 +40,8 @@ void FiveInARowField::eventLoop()
 {
     using namespace genv;
 
-    while(gin>>ev && !wantToExit)
+    while(gin>>ev )
     {
-//        for(unsigned i=0; i<widgets.size(); i++)
-//        {
-//            widgets[i]->eventHandler(ev);
-//        }
         if(ev.type==ev_mouse && ev.button==btn_left && logic->validStep(whichLine(),whichRow()))
         {
             newField();
@@ -61,8 +54,6 @@ void FiveInARowField::eventLoop()
             }
         }
     }
-   // endScreen();
-    //exit();
 
 }
 
@@ -70,15 +61,20 @@ void FiveInARowField::newField()
 {
     if(logic->whichPlayer()==1)
     {
-        Widget * w= new SimpleText(whichLine()*gridSize, whichRow()*gridSize,gridSize-2,gridSize-2, "X");
+        Widget * w= new BlackOrWhiteSimpleText(whichLine()*gridSize+1, whichRow()*gridSize+1,gridSize-2,gridSize-2, "X", true);
         widgets.push_back(w);
     }
     else if(logic->whichPlayer()==2)
     {
-        Widget * w= new SimpleText(whichLine()*gridSize, whichRow()*gridSize,gridSize-2,gridSize-2, "0");
+        Widget * w= new BlackOrWhiteSimpleText(whichLine()*gridSize+1, whichRow()*gridSize+1,gridSize-2,gridSize-2, "0", true);
         widgets.push_back(w);
     }
-
+    logic->stepMade(whichLine(),whichRow());
+    if(logic->won())
+    {
+        endScreen();
+    }
+    logic->switchPlayer();
 }
 
 int FiveInARowField::whichLine()
@@ -96,7 +92,7 @@ void FiveInARowField::openingScreen()
     using namespace genv;
     gout.open(max_X,max_Y);
     std::string game="FIVE IN A ROW";
-    SimpleText * gameName = new SimpleText(max_X/2-gout.twidth(game)/2,max_Y/4,gout.twidth(game),20,game);
+    BlackOrWhiteSimpleText * gameName = new BlackOrWhiteSimpleText(max_X/2-gout.twidth(game)/2,max_Y/4,gout.twidth(game),20,game,false);
 
     for(unsigned i=0; i<navig.size(); i++)
     {
@@ -120,15 +116,16 @@ void FiveInARowField::endScreen()
     gameGoing=false;
     int player=logic->whichPlayer();
     std::string who="Player " + int_to_string(player) + " wins!";
-    SimpleText * whoWon;
     gout << move_to(0,0) << color(0,0,0) << box(max_X,max_Y);
-    whoWon = new SimpleText(max_X/2-gout.twidth(who)/2,max_Y/4,gout.twidth(who),20,who);
+    BlackOrWhiteSimpleText *whoWon = new BlackOrWhiteSimpleText(max_X/2-gout.twidth(who)/2,max_Y/4,gout.twidth(who),20,who,false);
 
     for(unsigned i=0; i<navig.size(); i++)
     {
         navig[i]->draw();
     }
     gout << refresh;
+    delete whoWon;
+
     while(gin>>ev && !gameGoing)
     {
         for(unsigned i=0; i<navig.size(); i++)
@@ -136,7 +133,6 @@ void FiveInARowField::endScreen()
             navig[i]->eventHandler(ev);
         }
     }
-    delete whoWon; //lehet ez meg sem hívodik??
 }
 
 void FiveInARowField::exit() //exit gomb kezeli
@@ -163,14 +159,5 @@ void FiveInARowField::newGame() //open NavigationButton kezeli
     {
         delete widgets[i];
     }
-    /*a mátrixot lenullázom, szinten legyen logicban
-    for(int i=0; i<sizeOfField; i++)
-    {
-        for(int j=0; j<sizeOfField; j++)
-        {
-            stateOfField[i][j]=0;
-        }
-    }
-    */
     eventLoop();
 }

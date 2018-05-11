@@ -19,6 +19,7 @@ public:
     bool InAColumn(int howMany);
     bool Across(int howMany);
     bool won();
+    void stepMade(int i, int j);
     void changeState(int i, int j);
     int state(int i, int j) {return stateOfField[i][j];};
     void newGame();
