@@ -11,11 +11,11 @@ std::string int_to_string (int number)
     return txt;
 }
 
-//void white()
-//{
-//    genv::gout << genv::color(255,250,250);
-//}
-//void black()
-//{
-//    genv::gout << genv::color(0,0,0);
-//}
+void white()
+{
+    genv::gout << genv::color(255,250,250);
+}
+void black()
+{
+    genv::gout << genv::color(0,0,0);
+}
