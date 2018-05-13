@@ -18,8 +18,8 @@ protected:
     std::vector<Widget*> widgets;
 
 public:
-    Window();
-    void eventLoop();
+    Window() {};
+    virtual void eventLoop();
 };
 
 #endif // WINDOW_HPP_INCLUDED
