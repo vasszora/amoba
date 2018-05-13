@@ -7,7 +7,6 @@ class FiveInARowField : public GameField
 {
 private:
     static const int sizeOfField=15;
-    //ez logicba
     const int gridSize=max_X/sizeOfField;
 
 public:
@@ -21,7 +20,7 @@ public:
     void newField();
     int whichLine();
     int whichRow();
-    //~ FiveInARowField();
+    virtual ~ FiveInARowField() {};
 };
 
 

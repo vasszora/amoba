@@ -18,7 +18,7 @@ protected:
     std::vector<Widget*> widgets;
 
 public:
-    Window();
+    Window() {};
     void eventLoop();
 };
 

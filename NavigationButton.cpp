@@ -1,23 +1,21 @@
 #include "NavigationButton.hpp"
-
+#include "MyFunctions.hpp"
 #include <iostream>
 
 void NavigationButton::draw()
 {
     using namespace genv;
-    gout << move_to(x,y) ;
-    gout<< color(0,0,0) ;
-    gout<< box(width,heigth) ;
+    black();
+    gout << move_to(x,y) << box(width,heigth) ;
     gout<< move_to(x+3,y+gout.cdescent()+gout.cdescent()+5) ;
-    gout<< color(255,255,255) << text(name);
-    showing=true;
+    white();
+    gout << text(name);
 }
 void NavigationButton::eventHandler(genv::event ev)
 {
-    if((isFocused(ev) && !focused) || ev.keycode==keycode)
+    if((isFocused(ev) && !focused) || ev.keycode==keycode) //ha rákattintunk vagy lenyomjuk a hozzátartozó billentyût, elvégzi az actiont
     {
         action();
-        std::cout<<"naaa"<<std::endl;
         focused=true;
     }
     else
