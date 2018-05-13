@@ -2,15 +2,18 @@
 
 void FiveInARowLogic::changeState(int i, int j)
 {
-    if (state(i,j)==0)
-    {
-        stateOfField[i][j]=player;
-    }
+    stateOfField[i][j]=player;
 }
 
 bool FiveInARowLogic::validStep(int i, int j)
 {
     return state(i,j)==0;
+}
+
+void FiveInARowLogic::stepMade(int i, int j)
+{
+    stepsMade++;
+    changeState(i,j);
 }
 
 bool FiveInARowLogic::InARow(int howMany)
@@ -27,7 +30,7 @@ bool FiveInARowLogic::InARow(int howMany)
                 {
                     row++;
                 }
-                if(row<k)
+                if(row<k)//a k ötig megy, és együtt kell nõnie az egy oszlopban lévõ x-ek számával. ha az x-ek száma kisebb bármikor, mint a k, már úgysem lehet 5
                 {
                     continue;
                 }
@@ -138,7 +141,7 @@ bool FiveInARowLogic::won()
     }
 }
 
-bool FiveInARowLogic::isFull()
+bool FiveInARowLogic::gameOver()
 {
     for (int i=0; i<sizeOfField; i++)
     {
@@ -150,6 +153,7 @@ bool FiveInARowLogic::isFull()
             }
         }
     }
+    newGame(); //ha vegigerunk, akkor igaz, es vissza kell nullazni a matrixot
     return true;
 }
 
@@ -163,4 +167,3 @@ void FiveInARowLogic::newGame()
         }
     }
 }
-

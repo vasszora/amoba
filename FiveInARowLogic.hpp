@@ -13,16 +13,17 @@ private:
     const int forTheWin = 5; //ennyi kell a gyozelemhez
 
 public:
-    FiveInARowLogic(GameField * _field) : GameLogic(_field) {};
+    FiveInARowLogic() : GameLogic() {};
     bool validStep(int i, int j);
     bool InARow(int howMany);
     bool InAColumn(int howMany);
     bool Across(int howMany);
     bool won();
+    void stepMade(int i, int j);
     void changeState(int i, int j);
     int state(int i, int j) {return stateOfField[i][j];};
     void newGame();
-    bool isFull();
+    bool gameOver();
 };
 
 #endif // FIVEINAROWLOGIC_HPP_INCLUDED

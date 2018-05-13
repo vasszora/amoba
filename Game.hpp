@@ -1,5 +1,6 @@
 #ifndef GAME_HPP_INCLUDED
 #define GAME_HPP_INCLUDED
+#include "GameField.hpp"
 
 class GameField;
 class Game
